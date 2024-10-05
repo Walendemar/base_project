@@ -2,12 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
+const webpack = require('webpack');
 
 const ROOT_PATH = path.resolve(__dirname, '..');
 
 const mode = process.env.NODE_ENV;
+const isProduction = mode === 'production';
 
 module.exports = {
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
   entry: path.join(ROOT_PATH, 'src/index.tsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'dist'),
@@ -76,11 +79,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(ROOT_PATH, 'public/index.html'),
-    })
+    }),
+    ...(!isProduction ? [new webpack.HotModuleReplacementPlugin()] : []),
   ],
   devServer: {
     static: path.join(ROOT_PATH, 'dist'),
     compress: true,
     port: 3000,
+    hot: !isProduction
   }
 };
