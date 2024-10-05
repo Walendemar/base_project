@@ -9,7 +9,11 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@src/*": ["*"],
+      "@css/*": ["./src/css"]
+    }
   },
   "include": [
     "./src/**/*.ts",

@@ -11,6 +11,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      '@src': path.resolve(ROOT_PATH, 'src'),
+      '@css': path.resolve(ROOT_PATH, 'src/css')
+    },
   },
   mode: 'development',
   module: {
