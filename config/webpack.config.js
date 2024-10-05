@@ -1,23 +1,41 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname, '..');
+
+const mode = process.env.NODE_ENV;
 
 module.exports = {
   entry: path.join(ROOT_PATH, 'src/index.tsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'dist'),
     filename: 'bundle.js',
+    clean: true
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@src': path.resolve(ROOT_PATH, 'src'),
       '@css': path.resolve(ROOT_PATH, 'src/css'),
-      '@img': path.resolve(ROOT_PATH, 'src/assets/images'),
-    },
+      '@img': path.resolve(ROOT_PATH, 'src/assets/images')
+    }
   },
-  mode: 'development',
+  mode: mode,
+  optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserWebpackPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true
+            },
+          },
+        }),
+        new CssMinimizerWebpackPlugin()
+      ],
+    },
   module: {
     rules: [
       {
@@ -58,11 +76,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(ROOT_PATH, 'public/index.html'),
-    }),
+    })
   ],
   devServer: {
     static: path.join(ROOT_PATH, 'dist'),
     compress: true,
     port: 3000,
-  },
+  }
 };
