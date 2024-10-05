@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
@@ -15,30 +16,30 @@ module.exports = {
   output: {
     path: path.resolve(ROOT_PATH, 'dist'),
     filename: 'bundle.js',
-    clean: true
+    clean: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@src': path.resolve(ROOT_PATH, 'src'),
       '@css': path.resolve(ROOT_PATH, 'src/css'),
-      '@img': path.resolve(ROOT_PATH, 'src/assets/images')
-    }
+      '@img': path.resolve(ROOT_PATH, 'src/assets/images'),
+    },
   },
   mode: mode,
   optimization: {
-      minimize: true,
-      minimizer: [
-        new TerserWebpackPlugin({
-          terserOptions: {
-            compress: {
-              drop_console: true
-            },
+    minimize: true,
+    minimizer: [
+      new TerserWebpackPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
           },
-        }),
-        new CssMinimizerWebpackPlugin()
-      ],
-    },
+        },
+      }),
+      new CssMinimizerWebpackPlugin(),
+    ],
+  },
   module: {
     rules: [
       {
@@ -47,33 +48,33 @@ module.exports = {
         use: 'ts-loader',
       },
       {
-          test: /\.module\.css$/i,
+        test: /\.module\.css$/i,
         use: [
           'style-loader',
           {
             loader: 'css-loader',
             options: {
-                modules: {
-                    localIdentName: '[local]__[hash:base64:5]',
-                }
-             },
+              modules: {
+                localIdentName: '[local]__[hash:base64:5]',
+              },
+            },
           },
         ],
       },
       {
-          test: /\.(png|jpe?g|gif|svg|webp)$/i,
-          type: 'asset/resource',
-          generator: {
-              filename: 'src/assets/images/[hash][ext][query]',
-          },
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'src/assets/images/[hash][ext][query]',
+        },
       },
       {
-          test: /\.(woff|woff2|eot|ttf|otf)$/i,
-          type: 'asset/resource',
-          generator: {
-              filename: 'src/assets/fonts/[hash][ext][query]',
-          },
-      }
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'src/assets/fonts/[hash][ext][query]',
+        },
+      },
     ],
   },
   plugins: [
@@ -86,6 +87,6 @@ module.exports = {
     static: path.join(ROOT_PATH, 'dist'),
     compress: true,
     port: 3000,
-    hot: !isProduction
-  }
+    hot: !isProduction,
+  },
 };
