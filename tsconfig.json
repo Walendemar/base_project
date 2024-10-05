@@ -12,13 +12,14 @@
     "outDir": "./dist",
     "paths": {
       "@src/*": ["*"],
-      "@css/*": ["./src/css"]
+      "@css/*": ["./src/css"],
+      "@img/*": ["./src/assets/images"]
     }
   },
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",
-    "global.d.ts"
+    "./src/types/generated/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
