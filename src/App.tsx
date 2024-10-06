@@ -1,4 +1,3 @@
-import React from 'react';
 import * as styles from '@css/App.module.css';
 import logo from '@img/react.png';
 
